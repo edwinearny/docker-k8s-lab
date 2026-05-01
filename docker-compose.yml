@@ -1,0 +1,14 @@
+
+services:
+  api:
+    build: .
+    container_name: notes-app
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    environment:
+      - APP_NAME=fastapi-notes-api
+      - DEBUG=True
+      - DATABASE_URL=sqlite:///./notes.db
+    restart: unless-stopped
