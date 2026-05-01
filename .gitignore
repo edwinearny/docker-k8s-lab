@@ -216,3 +216,10 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+/.idea/.gitignore
+/.idea/docker-k8s-lab.iml
+/.idea/misc.xml
+/.idea/modules.xml
+/notes.db
+/.idea/inspectionProfiles/profiles_settings.xml
+/.idea/vcs.xml
