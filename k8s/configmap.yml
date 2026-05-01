@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: notes-config
+data:
+  APP_NAME: "fastapi-notes-api"
+  DEBUG: "True"
+  DATABASE_URL: "sqlite:///./notes.db"
