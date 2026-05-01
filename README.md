@@ -8,16 +8,6 @@ Dockerized and Kubernetes deployment of fastapi-notes-api using minikube.
 - Deploying to a local Kubernetes cluster using minikube
 - Kubernetes Deployments, Services, and ConfigMaps
 
-## Project Structure
-docker-k8s-lab/
-├── app/                        # FastAPI app (from fastapi-notes-api)
-├── k8s/
-│   ├── configmap.yml           # Environment variables for Kubernetes
-│   ├── deployment.yml          # Tells Kubernetes how to run the app
-│   └── service.yml             # Exposes the app on port 30080
-├── Dockerfile                  # Builds the app image
-├── docker-compose.yml          # Runs the app locally with Docker
-└── requirements.txt
 
 ## Prerequisites
 - Docker Desktop (running)
@@ -63,46 +53,22 @@ API docs: http://localhost:8000/docs
 
 ## Kubernetes (minikube)
 
-### Start minikube
+### Commands for minikube
 ```bash
 minikube start --driver=docker
-```
-
-### Check minikube status
-```bash
 minikube status
-```
-
-### Build image inside minikube
-```bash
 minikube image build -t notes-api:latest .
-```
-
-### Verify image is loaded
-```bash
 minikube image ls
-```
-
-### Apply all manifests
-```bash
 kubectl apply -f k8s/configmap.yml
 kubectl apply -f k8s/deployment.yml
 kubectl apply -f k8s/service.yml
-```
-
-### Check deployment
-```bash
 kubectl get deployments
-```
-
-### Check pods
-```bash
 kubectl get pods
-```
-
-### Check services
-```bash
 kubectl get services
+kubectl logs <pod-name>
+kubectl describe pod <pod-name>
+kubectl delete -f k8s/
+minikube stop
 ```
 
 ### Get app URL
@@ -112,36 +78,4 @@ minikube service notes-service --url
 
 Open the URL in your browser with /docs at the end.
 
-### View pod logs
-```bash
-kubectl logs <pod-name>
-```
-
-### Describe a pod (for debugging)
-```bash
-kubectl describe pod <pod-name>
-```
-
-### Delete all resources
-```bash
-kubectl delete -f k8s/
-```
-
-### Stop minikube
-```bash
-minikube stop
-```
-
 ---
-
-## How the Kubernetes pieces connect
-
-ConfigMap (notes-config)
-└── feeds env vars into → Deployment (notes-deployment)
-└── creates Pods labeled → app: notes-app
-↑
-Service (notes-service) ── finds Pods by label ──────────────────
-└── exposes them on port 30080.
-The label `app: notes-app` is the glue.
-The Deployment stamps it onto every Pod.
-The Service uses it to find and route traffic to those Pods.
