@@ -80,3 +80,31 @@ Open the URL in your browser with /docs at the end.
 
 ---
 <!-- CI/CD pipeline active -->
+## Azure Container Apps Deployment
+
+### Prerequisites
+- Azure CLI installed and logged in
+- Docker Hub account
+
+### Deploy manually
+```bash
+# Create resource group
+az group create --name notes-rg --location eastus
+
+# Create Container Apps environment
+az containerapp env create --name notes-env --resource-group notes-rg --location eastus
+
+# Deploy the app
+az containerapp create --name notes-app --resource-group notes-rg --environment notes-env --image andrawid/fastapi-notes-api:latest --target-port 8000 --ingress external --min-replicas 1 --max-replicas 1
+```
+
+### CI/CD Pipeline
+Every push to `main` automatically:
+1. Builds a new Docker image
+2. Pushes it to Docker Hub
+3. Redeploys to Azure Container Apps
+
+### Cleanup
+```bash
+az group delete --name notes-rg --yes --no-wait
+```
