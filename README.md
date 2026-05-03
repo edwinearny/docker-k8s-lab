@@ -79,3 +79,4 @@ minikube service notes-service --url
 Open the URL in your browser with /docs at the end.
 
 ---
+<!-- CI/CD pipeline active -->
