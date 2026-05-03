@@ -25,15 +25,3 @@ jobs:
           context: .
           push: true
           tags: andrawid/fastapi-notes-api:latest
-
-      - name: Login to Azure
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-
-      - name: Deploy to Azure Container Apps
-        run: |
-          az containerapp update \
-            --name notes-app \
-            --resource-group notes-rg \
-            --image andrawid/fastapi-notes-api:latest
